@@ -3,7 +3,7 @@ const aadhar = [
         aadharNumber:123456789801,
         userName:'Parshav Andhariya',
         userDOB:'2/08/2004',
-        userConatctNumber:7894563579,
+        userConatctNumber:7383649720,
         userAddress:'bhavnagar' 
 
     },
@@ -11,7 +11,7 @@ const aadhar = [
         aadharNumber: '432156789801',
         userName:'Parthiv Chaudhari',
         userDOB:'20/04/2002',
-        userConatctNumber:7894563579,
+        userConatctNumber:7016676270,
         userAddress:'Modasa' 
 
     },
@@ -19,7 +19,7 @@ const aadhar = [
         aadharNumber:123478569801,
         userName:'Raj Acharya',
         userDOB:'23/02/2000',
-        userConatctNumber:7894563579,
+        userConatctNumber:8200370710,
         userAddress:'bhavnagar' 
 
     },
