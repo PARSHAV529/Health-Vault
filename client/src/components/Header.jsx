@@ -90,12 +90,20 @@ function DrawerAppBar(props) {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar component="nav" sx={{  position: 'fixed' }}>
+      <AppBar component="nav" >
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
          
-         
+        <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { sm: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
