@@ -36,8 +36,8 @@ export default function RegisterForm({handelloginButton}) {
     handelloginButton()
   };
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen">
-      <div className="container mx-auto text-blue-600 w-2/3">
+    <div className="fixed top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen    ">
+      <div className="container mx-auto text-blue-600 w-2/3 h-screen">
         <div className="lg:w-7/12 pb-10 pt-5 w-full p-4 flex flex-wrap justify-center shadow-blue-400 shadow-2xl my-20 rounded-md mx-auto">
           <div className="pb-5 ">
             <h1 className="text-3xl  font-bold">Register Form</h1>

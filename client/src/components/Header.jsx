@@ -92,7 +92,7 @@ function DrawerAppBar(props) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
       <CssBaseline />
-      <AppBar component="nav">
+      <AppBar component="nav" sx={{  position: 'fixed' }}>
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
          
          
