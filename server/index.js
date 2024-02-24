@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const cors = require('cors');
 const user = require('./routes/user');
 const hospital = require('./routes/hospital');
+const { sendMessage } = require('./utils/sendSms');
 const app = express()
 
 env.config();
@@ -20,6 +21,27 @@ app.get('/',(req,res) =>{
     console.log("Server Is Running")
     }
 )
+app.post('/sendotp',(req,res)=>{
+
+   try{
+    const{number, otp}=req.body;
+    const accountSid = process.env. ACCOUNT_SID;
+    const authToken = process.env.AUTH_TOKEN;
+    
+    const client = require('twilio')(accountSid, authToken);
+    
+    client.messages
+      .create({
+        body: `your otp is ${otp}`,
+        to:`${number}`, // Text your number
+        from: '+19518014629', // From a valid Twilio number
+      })
+      .then((message) =>res.status(201).json({message}))
+      .catch((error) => res.status(400).json({message:error.message}))
+    }catch(error){
+        return res.status(500).json({message:error.message});
+    }
+})
 app.use('/api/v1/user', user);
 app.use('/api/v1/hospital',hospital)
 app.listen(4000,()=>{

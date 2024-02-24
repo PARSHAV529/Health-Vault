@@ -13,13 +13,13 @@ const fields = [
   },
   
   
-  {
-    label: "Password",
-    type: "password",
-    placeholder: "Enter your password",
-    required: true,
-    gridCols: 2,
-  },
+  // {
+  //   label: "Password",
+  //   type: "password",
+  //   placeholder: "Enter your password",
+  //   required: true,
+  //   gridCols: 2,
+  // },
   
   
 ];
@@ -64,6 +64,7 @@ export default function RegisterForm({handelloginButton}) {
                     }`}
                     type={field.type}
                     placeholder={field.placeholder}
+                    onChange={(e)=>}
                   />
                   {errors[field.label.toLowerCase()] && (
                     <span className="text-red-500">This field is required</span>
@@ -71,21 +72,7 @@ export default function RegisterForm({handelloginButton}) {
                 </div>
               ))}
             </div>
-            <div className="flex flex-row items-center text-sm justify-center mb-5">
-            <a
-                        href="#"
-                        className="text-xs text-blue-600 hover:underline"
-                    >
-                        already have an account?
-                    </a>
-                    <div className="">
-                        <button className="w-full hover:bg-white hover:text-blue-500 text-sm cursor-pointer px-2 py-2 tracking-wide text-blue transition-colors duration-200 transform  rounded-md  focus:outline-none ">
-                            Login
-                        </button>
-                    </div>
-
-            </div>
-
+          
             
 
             <div className="w-full text-left">
@@ -105,3 +92,5 @@ export default function RegisterForm({handelloginButton}) {
     </div>
   );
 }
+
+// x
