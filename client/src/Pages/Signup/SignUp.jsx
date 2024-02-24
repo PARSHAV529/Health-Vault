@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlineArrowCircleRight } from "react-icons/hi";
 import { BsFillShieldLockFill, BsTelephoneFill } from "react-icons/bs";
@@ -12,8 +12,9 @@ import { auth } from "../../../firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
 import aadhar from "../../dummy_API/aadharCard_dummy";
+import axios from "axios";
 
-
+// appVerificationDisabledForTesting
 const fields = [
 
   {
@@ -38,85 +39,88 @@ const fields = [
 
 export default function RegisterForm() {
 
-  const [otp, setOtp] = useState("");
-  const [ph, setPh] = useState("");
+  const [otp, setOtp] = useState();
+  const [ph, setPh] = useState();
+  let ip=useRef()
+
   const [aadharNumber, setAadharNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [user, setUser] = useState(null);
 
-  function onCaptchVerify() {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: (response) => {
-            onSignup();
-          },
-          "expired-callback": () => {},
-        },
-        auth
-      );
-    }
-  }
+  
 
   function getUserContactNumber(aadharNumber) {
     const user = aadhar.find(user => user.aadharNumber === aadharNumber);
     return user ? user.userConatctNumber : "User not found";
 }
  
-
+const otp_generate=()=>{
+  const otp = Math.floor(100000 + Math.random() * 500000).toString();
+  return otp;
+};
   
-  function onSignup(e) {
+  async function onSignup(e) {
     e.preventDefault()
     setLoading(true);
-    onCaptchVerify();
 
-    const appVerifier = window.recaptchaVerifier;
-    setPh(getUserContactNumber(aadharNumber))
     
-    const formatPh = "+" + ph;
+    let num=getUserContactNumber(aadharNumber)
+    setOtp(otp_generate())
+// console.log(getUserContactNumber(aadharNumber))
+// console.log(num)
 
-    signInWithPhoneNumber(auth, formatPh,appVerifier)
-      .then((confirmationResult) => {
-        window.confirmationResult = confirmationResult;
-        setLoading(false);
-        setShowOTP(true);
-        toast.success("OTP sended successfully!");
+// let numstring = num.toString()
+    setPh(num)
+     
+    try{
+      const res= await axios.post("http://localhost:4000/sendotp",
+      {
+        otp:otp,
+        number:ph
       })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
-      });
+
+      console.log(res)    
+
+    }
+    catch(e)
+    {
+      console.log(e.message)
+    }
+    
+
+    // const formatPh = "+91" + ph;
+
+    // signInWithPhoneNumber(auth, formatPh,appVerifier)
+    //   .then((confirmationResult) => {
+    //     window.confirmationResult = confirmationResult;
+    //     setLoading(false);
+    //     setShowOTP(true);
+    //     toast.success("OTP sended successfully!");
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     setLoading(false);
+    //   });
   }
   function onOTPVerify() {
     setLoading(true);
-    window.confirmationResult
-      .confirm(otp)
-      .then(async (res) => {
-        console.log(res);
-        setUser(res.user);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
-      });
+    // window.confirmationResult
+    //   .confirm(otp)
+    //   .then(async (res) => {
+    //     console.log(res);
+    //     setUser(res.user);
+    //     setLoading(false);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     setLoading(false);
+    //   });
   }
 
 
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = (data) => {
-    console.log(data);
-    handelloginButton()
-  };
+ 
   return (<>
 
 <section className=" absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen">
@@ -169,8 +173,8 @@ export default function RegisterForm() {
           <div className="pb-5 ">
             <h1 className="text-3xl  font-bold">verify aadhaar number</h1>
           </div>
-          <form
-            onSubmit={onSignup}
+          <div
+            // onSubmit={onSignup}
             className="flex flex-col justify-start items-center w-full m-auto"
           >
             <div className="grid grid-cols-1  my-6 md:grid-cols-2 gap-3 w-full">
@@ -183,18 +187,19 @@ export default function RegisterForm() {
                 >
                   <label className="font-semibold"  value={aadharNumber} onChange={setAadharNumber} >{field.label}</label>
                   <input
-                    {...register(field.label.toLowerCase(), {
-                      required: field.required,
-                    })}
+                    // {...register(field.label.toLowerCase(), {
+                    //   required: field.required,
+                    // })}
                     className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-blue-500 ${
                       field.gridCols === 2 ? "md:w-full" : ""
                     }`}
-                    type={field.type}
-                    placeholder={field.placeholder}
+                    ref={ip}
+                    type="number" value={aadharNumber} onChange={()=>{
+                      setAadharNumber(ip.current.value)
+                    }}
+                    placeholder={field.placeholder} 
                   />
-                  {errors[field.label.toLowerCase()] && (
-                    <span className="text-red-500">This field is required</span>
-                  )}
+                  
                 </div>
               ))}
             </div>
@@ -219,7 +224,7 @@ export default function RegisterForm() {
               <button
                 type="submit"
                 className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-blue-600 text-white text-md font-bold border border-blue-500 rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-blue-500 lg:m-0 md:px-6"
-                // onClick={onSignup}
+                onClick={onSignup}
 
                
               >
@@ -227,7 +232,7 @@ export default function RegisterForm() {
                 <HiOutlineArrowCircleRight size={20} />
               </button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
