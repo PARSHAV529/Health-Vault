@@ -11,6 +11,7 @@ import "react-phone-input-2/lib/style.css";
 import { auth } from "../../../firebase.config";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
+import aadhar from "../../dummy_API/aadharCard_dummy";
 
 
 const fields = [
@@ -35,10 +36,11 @@ const fields = [
   
 ];
 
-export default function RegisterForm({handelloginButton}) {
+export default function RegisterForm() {
 
   const [otp, setOtp] = useState("");
   const [ph, setPh] = useState("");
+  const [aadharNumber, setAadharNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [user, setUser] = useState(null);
@@ -59,16 +61,24 @@ export default function RegisterForm({handelloginButton}) {
     }
   }
 
+  function getUserContactNumber(aadharNumber) {
+    const user = aadhar.find(user => user.aadharNumber === aadharNumber);
+    return user ? user.userConatctNumber : "User not found";
+}
+ 
+
   
-  function onSignup() {
+  function onSignup(e) {
+    e.preventDefault()
     setLoading(true);
     onCaptchVerify();
 
     const appVerifier = window.recaptchaVerifier;
-
+    setPh(getUserContactNumber(aadharNumber))
+    
     const formatPh = "+" + ph;
 
-    signInWithPhoneNumber(auth, formatPh, appVerifier)
+    signInWithPhoneNumber(auth, formatPh,appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
         setLoading(false);
@@ -160,7 +170,7 @@ export default function RegisterForm({handelloginButton}) {
             <h1 className="text-3xl  font-bold">verify aadhaar number</h1>
           </div>
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={onSignup}
             className="flex flex-col justify-start items-center w-full m-auto"
           >
             <div className="grid grid-cols-1  my-6 md:grid-cols-2 gap-3 w-full">
@@ -171,7 +181,7 @@ export default function RegisterForm({handelloginButton}) {
                     field.gridCols === 2 ? "md:col-span-2" : ""
                   }`}
                 >
-                  <label className="font-semibold">{field.label}</label>
+                  <label className="font-semibold"  value={aadharNumber} onChange={setAadharNumber} >{field.label}</label>
                   <input
                     {...register(field.label.toLowerCase(), {
                       required: field.required,
@@ -209,8 +219,9 @@ export default function RegisterForm({handelloginButton}) {
               <button
                 type="submit"
                 className="flex justify-center items-center gap-2 w-full py-3 px-4 bg-blue-600 text-white text-md font-bold border border-blue-500 rounded-md ease-in-out duration-150 shadow-slate-600 hover:bg-white hover:text-blue-500 lg:m-0 md:px-6"
+                // onClick={onSignup}
+
                
-                // onClick={}
               >
                 <span>Verify</span>
                 <HiOutlineArrowCircleRight size={20} />
