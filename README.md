@@ -1,6 +1,6 @@
 # Health-Vault
 
-The Health Records Management System is a web application designed to store and manage health records of patients. It provides a secure and centralized platform for hospitals to record and manage health information, ensuring data integrity and confidentiality.
+The Health-Vault is a web application designed to store and manage health records of patients. It provides a secure and centralized platform for hospitals to record and manage health information, ensuring data integrity and confidentiality.
 
 ## Overview
 
