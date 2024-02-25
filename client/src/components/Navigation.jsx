@@ -8,6 +8,8 @@ import RegisterForm from '../Pages/Signup/SignUp';
 import Home from '../Pages/Home';
 import DrawerAppBar from './Header';
 import { Password } from './Password';
+import HospitalDashboard from '../Pages/UserVault';
+
 
 // Define your routes
 const Navigation = () => {
@@ -19,6 +21,7 @@ const Navigation = () => {
         <Route path="/" element={<Home  />} />
         <Route path="/login" element={ <  LogIn/>} />
         <Route path="/pass/:id" element={ <Password/>} />
+        <Route path="/hospital" element={ <HospitalDashboard/>} />
        
 
 

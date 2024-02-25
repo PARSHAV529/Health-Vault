@@ -18,6 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 // const navItems = ['Home', 'About', 'Contact'];
@@ -131,11 +132,12 @@ function DrawerAppBar(props) {
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
         
               <Button  sx={{ color: '#fff' }}>
+                <Link to='/'>Home</Link>
                 
-                Home
               </Button>
               <Button  sx={{ color: '#fff' }}>
-                UserVault
+              <Link to='/hospital'>UserVault</Link>
+                
               </Button>
               <Button  sx={{ color: '#fff' }}>
                 About
