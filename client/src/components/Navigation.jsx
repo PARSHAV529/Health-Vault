@@ -9,6 +9,7 @@ import Home from '../Pages/Home';
 import DrawerAppBar from './Header';
 import { Password } from './Password';
 import HospitalDashboard from '../Pages/UserVault';
+import UserProfile from './UserProfileCard/Card';
 
 
 // Define your routes
@@ -21,7 +22,7 @@ const Navigation = () => {
         <Route path="/" element={<Home  />} />
         <Route path="/login" element={ <  LogIn/>} />
         <Route path="/pass/:id" element={ <Password/>} />
-        <Route path="/hospital" element={ <HospitalDashboard/>} />
+        <Route path="/hospital" element={ <UserProfile/>} />
        
 
 
