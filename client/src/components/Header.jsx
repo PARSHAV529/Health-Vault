@@ -131,6 +131,7 @@ function DrawerAppBar(props) {
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
         
               <Button  sx={{ color: '#fff' }}>
+                
                 Home
               </Button>
               <Button  sx={{ color: '#fff' }}>
@@ -139,6 +140,16 @@ function DrawerAppBar(props) {
               <Button  sx={{ color: '#fff' }}>
                 About
               </Button>
+            
+          </Box>
+          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+        
+              <Button  sx={{ color: '#fff' }}>
+                
+                Login
+              </Button>
+              
+             
             
           </Box>
         </Toolbar>

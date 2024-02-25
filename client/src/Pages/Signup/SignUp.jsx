@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { HiOutlineArrowCircleRight } from "react-icons/hi";
 import { BsFillShieldLockFill, BsTelephoneFill } from "react-icons/bs";
 import { CgSpinner } from "react-icons/cg";
-
+import { useNavigate } from "react-router-dom";
 import OtpInput from "otp-input-react";
 import { useState } from "react";
 import PhoneInput from "react-phone-input-2";
@@ -13,6 +13,8 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { toast, Toaster } from "react-hot-toast";
 import aadhar from "../../dummy_API/aadharCard_dummy";
 import axios from "axios";
+
+
 
 // appVerificationDisabledForTesting
 const fields = [
@@ -39,9 +41,11 @@ const fields = [
 
 export default function RegisterForm() {
 
-  const [otp, setOtp] = useState();
-  const [ph, setPh] = useState();
+  const [otp, setOtp] = useState("");
+  const [ph, setPh] = useState("");
   let ip=useRef()
+  let otp_gen=useRef("")
+  const navigate=useNavigate()
 
   const [aadharNumber, setAadharNumber] = useState("");
   const [loading, setLoading] = useState(false);
@@ -59,52 +63,72 @@ const otp_generate=()=>{
   const otp = Math.floor(100000 + Math.random() * 500000).toString();
   return otp;
 };
+
+async function sendOTP(formatPh,otp) {
+  // Create the data object
+  const data = {
+    number: formatPh,
+    otp: otp
+  };
+
+  try {
+    // Make the POST request using axios
+    const res = await axios.post("http://localhost:4000/sendotp", data);
+    console.log(res.data); // Assuming you want to log the response data
+    return res.data; // Return the response data if needed
+  } catch (error) {
+    console.error(error); // Log any errors that occur
+    throw error; // Re-throw the error to handle it in the caller if needed
+  }
+}
   
-  async function onSignup(e) {
+   function onSignup(e) {
     e.preventDefault()
     setLoading(true);
 
     
-    let num=getUserContactNumber(aadharNumber)
-    setOtp(otp_generate())
-// console.log(getUserContactNumber(aadharNumber))
-// console.log(num)
+    let num=getUserContactNumber(aadharNumber).toString()
+    const formatPh = "+91" + num;
+     otp_gen.current= otp_generate()
+ 
 
-// let numstring = num.toString()
-    setPh(num)
-     
-    try{
-      const res= await axios.post("http://localhost:4000/sendotp",
-      {
-        otp:otp,
-        number:ph
-      })
-
-      console.log(res)    
-
-    }
-    catch(e)
-    {
-      console.log(e.message)
-    }
+    setPh(formatPh)
+    sendOTP(formatPh,otp_gen.current)
+.then(response => {
+    console.log("OTP sent successfully:", response);
+    // Handle the response if needed
+    setLoading(false);
+        setShowOTP(true);
+        toast.success("OTP sended successfully!");
+  })
+  .catch(error => {
+    console.error("Failed to send OTP:", error);
+    setLoading(false);
+    // Handle the error if needed
+  });
     
 
-    // const formatPh = "+91" + ph;
-
-    // signInWithPhoneNumber(auth, formatPh,appVerifier)
-    //   .then((confirmationResult) => {
-    //     window.confirmationResult = confirmationResult;
-    //     setLoading(false);
-    //     setShowOTP(true);
-    //     toast.success("OTP sended successfully!");
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     setLoading(false);
-    //   });
   }
   function onOTPVerify() {
     setLoading(true);
+    console.log(otp)
+console.log(otp_gen.current)
+
+    if(otp===otp_gen.current){
+       setLoading(false);
+       console.log("Verified")
+        navigate(`/pass/${aadharNumber}`)
+        
+
+    }else{
+     console.log("cancel")
+          setLoading(false);
+
+
+    }
+
+
+
     // window.confirmationResult
     //   .confirm(otp)
     //   .then(async (res) => {
@@ -146,8 +170,8 @@ const otp_generate=()=>{
                   Enter your OTP
                 </label>
                 <OtpInput
-                  value={otp}
-                  onChange={setOtp}
+                 value={otp}
+                 onChange={setOtp}
                   OTPLength={6}
                   otpType="number"
                   disabled={false}
@@ -193,31 +217,21 @@ const otp_generate=()=>{
                     className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-blue-500 ${
                       field.gridCols === 2 ? "md:w-full" : ""
                     }`}
+
                     ref={ip}
-                    type="number" value={aadharNumber} onChange={()=>{
+                    type="number" 
+                    value={aadharNumber}
+                     onChange={()=>{
                       setAadharNumber(ip.current.value)
                     }}
                     placeholder={field.placeholder} 
+
                   />
                   
                 </div>
               ))}
             </div>
-            <div className="flex flex-row items-center text-sm justify-center mb-5">
-            <a
-                        href="#"
-                        className="text-xs text-blue-600 hover:underline"
-                    >
-                        already have an account?
-                    </a>
-                    <div className="">
-                        <button className="w-full hover:bg-white hover:text-blue-500 text-sm cursor-pointer px-2 py-2 tracking-wide text-blue transition-colors duration-200 transform  rounded-md  focus:outline-none ">
-                            Login
-                        </button>
-                    </div>
-
-            </div>
-
+          
             
 
             <div className="w-full text-left">
@@ -258,3 +272,5 @@ const otp_generate=()=>{
     </>
   );
 }
+
+// x

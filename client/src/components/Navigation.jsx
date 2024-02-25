@@ -7,6 +7,7 @@ import LogIn from '../Pages/Login/Login';
 import RegisterForm from '../Pages/Signup/SignUp';
 import Home from '../Pages/Home';
 import DrawerAppBar from './Header';
+import { Password } from './Password';
 
 // Define your routes
 const Navigation = () => {
@@ -17,6 +18,7 @@ const Navigation = () => {
         <Route path="/signup" element={<RegisterForm />} />
         <Route path="/" element={<Home  />} />
         <Route path="/login" element={ <  LogIn/>} />
+        <Route path="/pass/:id" element={ <Password/>} />
        
 
 

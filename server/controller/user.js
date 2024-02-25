@@ -6,7 +6,7 @@ const generateToken = require('../utils/generateToken');
 
 exports.registerUser = async(req,res) =>{
     try {
-        const {name,password,phoneNumber,address,Adharcardnumber,date} = req.body;
+        const {name,password,phoneNumber,address,Adharcardnumber,date,gender} = req.body;
         const userExists = await userModel.findOne({Adharcardnumber})
         // Checking If User Already Exist With Entered Email
         if(userExists)
@@ -17,7 +17,7 @@ exports.registerUser = async(req,res) =>{
        // if(isProvider)
          //   return res.status(400).json({message:"Try Different Email Id"})
         console.log("Email");
-        const user = await userModel.create({name,password,phoneNumber,address,Adharcardnumber,date});
+        const user = await userModel.create({name,password,phoneNumber,address,Adharcardnumber,date,gender});
         console.log(user);
         generateToken(res,201,user,true)
     } catch (error) {

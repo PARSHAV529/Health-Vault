@@ -17,6 +17,7 @@ const generateToken = (res,statusCode,user,isUser) =>{
             phoneNumber:user?.phoneNumber,
             adharcardNumber:user?.AdharcardNumber,
             address:user?.address,
+            gender:user?.gender,
             date:user?.date,
             userToken:token
         })
