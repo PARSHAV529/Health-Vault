@@ -16,15 +16,26 @@ export default function PositionedMenu() {
   };
   const handleuserLogin = () => {
     setAnchorEl(null);
-    navigate('user/Login')
+    navigate('/user/login')
   };
-  const handleProviderLogin = () => {
+  const handlehospitalLogin = () => {
     setAnchorEl(null);
-    navigate('provider/Login')
+    navigate('/hospital/login')
 
    
   };
+  const handleusersignup = () => {
+    setAnchorEl(null);
+    navigate('/user/signup')
 
+   
+  };
+  const handlehospitalsignup = () => {
+    setAnchorEl(null);
+    navigate('/hospital/signup')
+
+   
+  };
   const handleClose =()=>{
     setAnchorEl(null);
 
@@ -58,9 +69,9 @@ export default function PositionedMenu() {
         }}
       >
         <MenuItem onClick={handleuserLogin}>user Login</MenuItem>
-        <MenuItem onClick={handleProviderLogin}>user Registration</MenuItem>
-        <MenuItem onClick={handleProviderLogin}>Hospital Login</MenuItem>
-        <MenuItem onClick={handleProviderLogin}>Hospital Registration</MenuItem>
+        <MenuItem onClick={handleusersignup}>user Registration</MenuItem>
+        <MenuItem onClick={handlehospitalLogin}>Hospital Login</MenuItem>
+        <MenuItem onClick={handlehospitalsignup}>Hospital Registration</MenuItem>
       </Menu>
     </div>
   );

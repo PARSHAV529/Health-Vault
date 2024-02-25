@@ -10,17 +10,20 @@ import DrawerAppBar from './Header';
 import { Password } from './Password';
 import HospitalDashboard from '../Pages/UserVault';
 import UserProfile from './UserProfileCard/Card';
+import HospitalSignup from '../Pages/HospitalSignup';
+
 
 
 // Define your routes
 const Navigation = () => {
   return (
-    <BrowserRouter >
-<DrawerAppBar/>
+    <BrowserRouter >  
+     <DrawerAppBar/>
       <Routes>
-        <Route path="/signup" element={<RegisterForm />} />
+        <Route path="/user/signup" element={<RegisterForm />} />
+        <Route path="/hospital/signup" element={<HospitalSignup/>} />
         <Route path="/" element={<Home  />} />
-        <Route path="/login" element={ <  LogIn/>} />
+        <Route path="/user/login" element={ <  LogIn/>} />
         <Route path="/pass/:id" element={ <Password/>} />
         <Route path="/hospital" element={ <UserProfile/>} />
        

@@ -16,7 +16,7 @@ exports.registerUser = async(req,res) =>{
        // const isProvider = await providerModel.findOne({email});
        // if(isProvider)
          //   return res.status(400).json({message:"Try Different Email Id"})
-        console.log("Email");
+        
         const user = await userModel.create({name,password,phoneNumber,address,Adharcardnumber,date,gender});
         console.log(user);
         generateToken(res,201,user,true)
@@ -26,8 +26,8 @@ exports.registerUser = async(req,res) =>{
 }
 exports.loginUser = async(req,res) =>{
     try {
-        const {phoneNumber, password} = req.body;
-        const user = await userModel.findOne({phoneNumber});
+        const {Adharcardnumber, password} = req.body;
+        const user = await userModel.findOne({Adharcardnumber});
         if(!user)
             return res.status(404).json({message:"Invalid Email or Password"});
         const passwordMatch = await bcrypt.compare(password,user.password)

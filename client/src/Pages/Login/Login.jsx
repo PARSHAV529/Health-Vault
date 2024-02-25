@@ -1,15 +1,27 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlineArrowCircleRight } from "react-icons/hi";
+import { useDispatch } from "react-redux";
+import { userRequest, userSuccess } from "../../redux/userReducer";
 
-const fields = [
+
+  export default function LogIn( ) {
+    
+  
+   const dispatch=useDispatch() 
+  const[pass,setPassword]=useState();
+ const[adharnumber,setAadharNumber]=useState();
+ const fields = [
 
   {
-    label: "Contact Number",
-    type: "number",
-    placeholder: "Enter your Contact number",
+    label: "AdharcardNumber",
+    type: "text",
+    placeholder: "Enter your Adhar card number",
     required: true,
     gridCols: 2,
+    value:adharnumber,
+    onchange: (value) => setAadharNumber(value), 
   },
   
   
@@ -19,22 +31,47 @@ const fields = [
     placeholder: "Enter your password",
     required: true,
     gridCols: 2,
+    value:pass,
+    onchange: (value) => setPassword(value),
   },
   
   
 ];
-
-  export default function LogIn({handelloginButton}) {
-    const {
-      register,
-      handleSubmit,
-      formState: { errors },
-    } = useForm();
-
-    const onSubmit = (data) => {
-      console.log(data);
-      handelloginButton()
-    };
+async function login(){
+  const data={
+     
+      password:pass,
+      
+     
+      Adharcardnumber:adharnumber,
+     
+  }
+  try{
+     dispatch(userRequest())
+      const res=await axios.post('http://localhost:4000/api/v1/user/login',data)
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${res.data.userToken}`;
+      localStorage.setItem(
+        "userToken",
+        JSON.stringify({ userToken: res.data.userToken })
+      );
+    dispatch(userSuccess(res.data))
+      
+     console.log(res.data)
+  } catch
+  (e){
+      console.log(e)
+  }
+}
+   function handleSubmit(e)
+   {
+    e.preventDefault();
+    login()
+    setAadharNumber("")
+    setPassword("")
+   } 
+    
   return (
     <div className="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2  w-screen h-screen">
       <div className="container mx-auto text-blue-600 w-2/3">
@@ -43,7 +80,7 @@ const fields = [
             <h1 className="text-3xl  font-bold">LogIn here</h1>
           </div>
           <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit}
             className="flex flex-col justify-start items-center w-full m-auto"
           >
             <div className="grid grid-cols-1  my-6 md:grid-cols-2 gap-3 w-full">
@@ -56,18 +93,18 @@ const fields = [
                 >
                   <label className="font-semibold">{field.label}</label>
                   <input
-                    {...register(field.label.toLowerCase(), {
-                      required: field.required,
-                    })}
+                    // {...register(field.label.toLowerCase(), {
+                    //   required: field.required,
+                    // })}
                     className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-blue-500 ${
                       field.gridCols === 2 ? "md:w-full" : ""
                     }`}
                     type={field.type}
                     placeholder={field.placeholder}
+                    value={field.value}
+                    onChange={(e)=>field.onchange(e.target.value)}
                   />
-                  {errors[field.label.toLowerCase()] && (
-                    <span className="text-red-500">This field is required</span>
-                  )}
+                
                 </div>
               ))}
             </div>
@@ -76,7 +113,7 @@ const fields = [
                         href="#"
                         className="text-xs text-blue-600 hover:underline"
                     >
-                        Don't have an account?
+                        Dont have an account?
                     </a>
                     <div className="">
                         <button className="w-full hover:bg-white hover:text-blue-500 text-sm cursor-pointer px-2 py-2 tracking-wide text-blue transition-colors duration-200 transform  rounded-md  focus:outline-none ">
@@ -105,3 +142,6 @@ const fields = [
     </div>
   );
 }
+  // {errors[field.label.toLowerCase()] && (
+                  //   <span className="text-red-500">This field is required</span>
+                  // )}

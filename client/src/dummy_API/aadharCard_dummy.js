@@ -31,7 +31,7 @@ const aadhar = [
         , userGender: "male"
     },
     {
-        aadharNumber: 123489759801,
+        aadharNumber: "123489759801",
         userName: 'Nishan Chaudhari',
         userDOB: '07/10/2004',
         userConatctNumber: 7016676270,
@@ -78,7 +78,6 @@ const aadhar = [
         userDOB: '30/05/2001',
         userConatctNumber: 7016676270,
         userAddress: 'Kheda'
-
         , userGender: "male"
     },
 

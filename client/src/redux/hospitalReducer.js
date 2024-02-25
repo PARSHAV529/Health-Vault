@@ -1,25 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  user: undefined,
+  hospital: undefined,
   loading: false,
   error: "",
 };
-const userSlice = createSlice({
-  name: "user",
+const hospitalSlice = createSlice({
+  name: "hospital",
   initialState,
   reducers: {
-    userRequest: (state) => {
+    hospitalRequest: (state) => {
       state.loading = true;
       state.error = "";
     },
-    userSuccess: (state, action) => {
-      state.user = action.payload;
+    hospitalSuccess: (state, action) => {
+      state.hospital = action.payload;
       state.loading = false;
       state.error = "";
     },
-    userFail: (state, action) => {
-      state.user = undefined;
+    hospitalFail: (state, action) => {
+      state.hospital = undefined;
       state.loading = false;
       state.error = action.payload;
     },
@@ -27,15 +27,15 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = undefined;
     },
-    userLogout: (state) => {
-      state.user = undefined;
+    hospitalLogout: (state) => {
+      state.hospital = undefined;
       state.loading = false;
       state.error = "";
     },
   },
 });
 
-export const { userRequest, userSuccess, userFail, userLogout, clearError } =
-  userSlice.actions;
+export const { hospitalRequest, hospitalSuccess, hospitalFail, hospitalLogout, clearError } =
+  hospitalSlice.actions;
 
-export default userSlice.reducer;
+export default hospitalSlice.reducer;
