@@ -6,6 +6,9 @@ import  SignUp  from './Pages/Signup/SignUp'
 import LogIn from './Pages/Login/Login'
 import DrawerAppBar from './components/Header'
 import Navigation from './components/Navigation'
+import UserProfile from './components/UserProfileCard/Card'
+import AddReportForm from './components/AddReportForm'
+import HospitalDashboard from './Pages/UserVault'
 
 function App() { 
   
@@ -17,6 +20,7 @@ function App() {
      {/* <LogIn/> */}
      {/* <DrawerAppBar/> */}
      <Navigation/>
+    {/* <Card/> */}
     </>
   )
 }
