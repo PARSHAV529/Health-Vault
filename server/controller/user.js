@@ -38,3 +38,16 @@ exports.loginUser = async(req,res) =>{
         return res.status(500).json({message:error.message})
     }
 }
+exports.getUserDetails = async(req,res) =>{
+    try {
+      if(!req.user)
+        return res.status(400).json({message:"Invalid request"})
+      const user = await userModel.findOne(req.user._id);
+  
+      if(!user)
+        return res.status(404).json({message:"No user found"});
+      return res.status(200).json({user});
+    } catch (error) {
+      return res.status(500).json({success:false})
+    }
+}

@@ -16,14 +16,14 @@ const aadhar = [
         , userGender: "male"
     },
     {
-        aadharNumber: 123478569801,
+        aadharNumber: "123478569801",
         userName: 'Raj Acharya',
         userDOB: '23/02/2000',
         userConatctNumber: 7016676270,
         userAddress: 'bhavnagar', userGender: "male"
     },
     {
-        aadharNumber: 123456789867,
+        aadharNumber: "123456789867",
         userName: 'Maulik Chaudhari',
         userDOB: '5/09/2000',
         userConatctNumber: 7016676270,

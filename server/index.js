@@ -5,6 +5,7 @@ const mongoose = require('mongoose')
 const cors = require('cors');
 const user = require('./routes/user');
 const hospital = require('./routes/hospital');
+const userdiseas= require('./routes/userdiseas');
 const { sendMessage } = require('./utils/sendSms');
 const app = express()
 
@@ -48,6 +49,7 @@ app.post('/sendotp',(req,res)=>{
 })
 app.use('/api/v1/user', user);
 app.use('/api/v1/hospital',hospital)
+app.use('/api/v1/userdiseas',userdiseas);
 app.listen(4000,()=>{
     console.log("Server is Running on port " + process.env.PORT)
 })

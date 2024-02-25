@@ -47,7 +47,13 @@ export const Password = () => {
         try{
            dispatch(userRequest())
             const res=await axios.post('http://localhost:4000/api/v1/user/signup',data)
-
+            axios.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${res.data.userToken}`;
+            localStorage.setItem(
+              "userToken",
+              JSON.stringify({ userToken: res.data.userToken })
+            );
           dispatch(userSuccess(res.data))
             
            console.log(res.data)

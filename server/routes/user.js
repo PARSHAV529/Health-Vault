@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { isUser } = require('../middleware/isUser');
-const { registerUser, loginUser } = require('../controller/user');
+const { registerUser, loginUser, getUserDetails } = require('../controller/user');
 const router = express.Router();
 // const multer = require('multer');
 
@@ -11,6 +11,6 @@ router.post('/signUp',registerUser)
 
 router.post('/login', loginUser);
 
-//router.get('/me',isUser,getUserDetails);
+router.get('/me',isUser,getUserDetails);
 
 module.exports = router
