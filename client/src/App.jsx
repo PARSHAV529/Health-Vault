@@ -6,6 +6,7 @@ import  SignUp  from './Pages/Signup/SignUp'
 import LogIn from './Pages/Login/Login'
 import DrawerAppBar from './components/Header'
 import Navigation from './components/Navigation'
+import Card from './components/UserProfileCard/Card'
 
 function App() { 
   
@@ -16,7 +17,8 @@ function App() {
      {/* <SignUp/> */}
      {/* <LogIn/> */}
      {/* <DrawerAppBar/> */}
-     <Navigation/>
+     {/* <Navigation/> */}
+    <Card/>
     </>
   )
 }
