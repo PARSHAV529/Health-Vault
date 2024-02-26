@@ -14,7 +14,7 @@ const medicalRecordSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    hospitalNumber: {
+    hospitalName: {
         type: String,
         required: true
     },

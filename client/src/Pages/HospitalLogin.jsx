@@ -3,25 +3,27 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiOutlineArrowCircleRight } from "react-icons/hi";
 import { useDispatch } from "react-redux";
-import { userRequest, userSuccess } from "../../redux/userReducer";
+
+import { hospitalRequest, hospitalSuccess } from "../redux/hospitalReducer";
+import { Link, useNavigate } from "react-router-dom";
 
 
-  export default function LogIn( ) {
-    
+  export default function HospitalLogin( ) {
+    const navigate=useNavigate();
   
    const dispatch=useDispatch() 
   const[pass,setPassword]=useState();
- const[adharnumber,setAadharNumber]=useState();
+ const[regnumber,setRegNumber]=useState();
  const fields = [
 
   {
-    label: "AdharcardNumber",
+    label: "Hospital Registration Number",
     type: "text",
-    placeholder: "Enter your Adhar card number",
+    placeholder: "",
     required: true,
     gridCols: 2,
-    value:adharnumber,
-    onchange: (value) => setAadharNumber(value), 
+    value:regnumber,
+    onchange: (value) => setRegNumber(value), 
   },
   
   
@@ -33,6 +35,7 @@ import { userRequest, userSuccess } from "../../redux/userReducer";
     gridCols: 2,
     value:pass,
     onchange: (value) => setPassword(value),
+    
   },
   
   
@@ -43,20 +46,20 @@ async function login(){
       password:pass,
       
      
-      Adharcardnumber:adharnumber,
+      registerNumber:regnumber,
      
   }
   try{
-     dispatch(userRequest())
-      const res=await axios.post('http://localhost:4000/api/v1/user/login',data)
+     dispatch(hospitalRequest())
+      const res=await axios.post('http://localhost:4000/api/v1/hospital/login',data)
       axios.defaults.headers.common[
         "Authorization"
-      ] = `Bearer ${res.data.userToken}`;
+      ] = `Bearer ${res.data.hospitalToken}`;
       localStorage.setItem(
-        "userToken",
-        JSON.stringify({ userToken: res.data.userToken })
+        "hospitalToken",
+        JSON.stringify({ hospital: res.data.hospitalToken })
       );
-    dispatch(userSuccess(res.data))
+    dispatch(hospitalSuccess(res.data))
       
      console.log(res.data)
   } catch
@@ -67,8 +70,9 @@ async function login(){
    function handleSubmit(e)
    {
     e.preventDefault();
-    login()
-    setAadharNumber("")
+      login()
+     navigate('/')
+    setRegNumber("")
     setPassword("")
    } 
     
@@ -77,7 +81,7 @@ async function login(){
       <div className="container mx-auto text-blue-600 w-2/3">
         <div className="lg:w-7/12 pb-10 pt-5 w-full p-4 flex flex-wrap justify-center shadow-blue-400 shadow-2xl my-20 rounded-md mx-auto">
           <div className="pb-5 ">
-            <h1 className="text-3xl  font-bold">LogIn here</h1>
+            <h1 className="text-3xl  font-bold">Hospital Login</h1>
           </div>
           <form
             onSubmit={handleSubmit}
@@ -101,7 +105,7 @@ async function login(){
                     }`}
                     type={field.type}
                     placeholder={field.placeholder}
-                    value={field.value} 
+                    value={field.value}
                     required
                     onChange={(e)=>field.onchange(e.target.value)}
                   />
@@ -117,9 +121,11 @@ async function login(){
                         Dont have an account?
                     </a>
                     <div className="">
+                     <Link to='/hospital/signup' >
                         <button className="w-full hover:bg-white hover:text-blue-500 text-sm cursor-pointer px-2 py-2 tracking-wide text-blue transition-colors duration-200 transform  rounded-md  focus:outline-none ">
                             Signup
                         </button>
+                        </Link>
                     </div>
 
             </div>

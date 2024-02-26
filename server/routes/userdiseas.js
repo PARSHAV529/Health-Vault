@@ -14,5 +14,5 @@ const storage = multer.diskStorage({
   
   const upload = multer({ storage: storage });
 // const storage = multer.memoryStorage()
-router.post('/setuserdisease',upload.single("medical_report"),setUserDisease)
+router.post('/setuserdisease',upload.single("medicalReport"),setUserDisease)
 module.exports = router

@@ -2,14 +2,14 @@ const medicalRecordModel =require('../models/medicalRecord')
 exports.setUserDisease=async(req,res)=>{
     try {
 
-        const {disease,description,drName,hospitalNumber,user,hospital}=req.body
+        const {disease,description,drName,hospitalName,user,hospital}=req.body
         // const user=req.user
         // const hospital=req.hospital;
         let medicalReport=""
         if(req.file){
         medicalReport=req.file.path;
         }
- const  userdiseas = await medicalRecordModel.create({disease,description,drName,hospitalNumber,medicalReport,user,hospital});
+ const  userdiseas = await medicalRecordModel.create({disease,description,drName,hospitalName,medicalReport,user,hospital});
         // if(!req.user)
         //   return res.status(400).json({message:"Invalid request"})
         // const user = await userModel.findOne(req.user._id);

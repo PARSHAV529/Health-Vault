@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
 import { HiOutlineArrowCircleRight } from "react-icons/hi";
-import { hospitalRequest } from '../redux/hospitalReducer';
+import { hospitalRequest, hospitalSuccess } from '../redux/hospitalReducer';
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const fields = [
 
@@ -58,8 +60,9 @@ const fields = [
 export default function HospitalSignup() {
 
   const dispatch=useDispatch()
+  const navigate=useNavigate()
  const Record={
-    name:'',
+   name:'',
    phoneNumber:'',
    address	: '',
    email : '',
@@ -82,23 +85,18 @@ export default function HospitalSignup() {
 
  console.log(addRecord.name)
  async function hospitalsignup(){
-  const data={
-     
-      password:pass,
-      Adharcardnumber:adharnumber,
-     
-  }
+  
   try{
      dispatch(hospitalRequest())
-      const res=await axios.post('http://localhost:4000/api/v1/user/login',data)
+      const res=await axios.post('http://localhost:4000/api/v1/hospital/signup',addRecord)
       axios.defaults.headers.common[
         "Authorization"
-      ] = `Bearer ${res.data.userToken}`;
+      ] = `Bearer ${res.data.hospitalToken}`;
       localStorage.setItem(
-        "userToken",
-        JSON.stringify({ userToken: res.data.userToken })
+        "hospitalToken",
+        JSON.stringify({ hospitalToken: res.data.hospitalToken })
       );
-    dispatch(userSuccess(res.data))
+    dispatch(hospitalSuccess(res.data))
       
      console.log(res.data)
   } catch
@@ -109,7 +107,8 @@ export default function HospitalSignup() {
 
  function handleSubmit(e){
   e.preventDefault();
-  
+  hospitalsignup();
+  navigate("/")
  
     
  }
@@ -142,6 +141,7 @@ export default function HospitalSignup() {
                     type="string"
                     placeholder="Enter Hospital Name"
                     value={addRecord.name}
+                    required
                     onChange={(e) => {
                         setAddRecord(prev => ({ ...prev, name: e.target.value }));
                       }}
@@ -160,6 +160,7 @@ export default function HospitalSignup() {
                    
                     className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-blue-500 `}
                     type="number"
+                    required
                     placeholder="Enter PhoneNumber"
                     value={addRecord.phoneNumber}
                     onChange={(e) => {
@@ -180,6 +181,7 @@ export default function HospitalSignup() {
                    
                     className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-blue-500 `}
                     type="string"
+                    required
                     placeholder="Enter Address"
                     value={addRecord.address}
                     onChange={(e) => {
@@ -199,6 +201,7 @@ export default function HospitalSignup() {
                    
                     className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-blue-500 `}
                     type="email"
+                    required
                     placeholder="enter Hospital Name"
                     value={addRecord.email}
                     onChange={(e) => {
@@ -211,6 +214,7 @@ export default function HospitalSignup() {
                    
                     className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-blue-500 `}
                     type="string"
+                    required
                     placeholder="Enter hospital register number "
                     value={addRecord.registerNumber}
                     onChange={(e) => {
@@ -220,7 +224,7 @@ export default function HospitalSignup() {
                   />
                   <label className="font-semibold"> Password </label>
                   <input
-                   
+                    required
                     className={`border border-gray-300 text-sm font-semibold mb-1 max-w-full w-full outline-none rounded-md m-0 py-3 px-4 md:py-3 md:px-4 md:mb-0 focus:border-blue-500 `}
                     type="password"
                     placeholder="Enter Password"

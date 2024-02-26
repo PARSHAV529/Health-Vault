@@ -3,6 +3,7 @@ import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 import AddReportForm from '../components/AddReportForm';
+import { Link } from 'react-router-dom';
 
 
 // import Navbar from '../Hospital/Navbar'
@@ -32,19 +33,18 @@ export default function HospitalDashboard() {
 
     
 
-function handleReportBtn(){
-     setForm(true);
-     setbg(false);
+// function handleReportBtn(){
+//      setForm(true);
+//      setbg(false);
 
 
-}
+// }
 
 
   return (
-    <>{form &&<AddReportForm />}
+    <>
 
 
-  {bg &&
       <section className="mx-auto w-full max-w-7xl px-4 py-4">
         <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
           <div>
@@ -54,15 +54,7 @@ function handleReportBtn(){
               ones.
             </p>
           </div>
-          <div>
-            <button
-              type="button"
-              onClick={handleReportBtn}
-              className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-            >
-              Add new Report
-            </button>
-          </div>
+         
         </div>
         <div className="mt-6 flex flex-col">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -147,7 +139,19 @@ Date                      </th>
             </div>
           </div>
         </div>
-      </section>}
+      </section>
     </>
   )
 }
+
+// <div>
+           
+// <button
+//   type="button"
+//   className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+// >
+// <Link to='/filluserdetail'> Add new Report</Link>
+//   Add new Report
+// </button>
+
+// </div>

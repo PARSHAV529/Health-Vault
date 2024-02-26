@@ -11,6 +11,8 @@ import { Password } from './Password';
 import HospitalDashboard from '../Pages/UserVault';
 import UserProfile from './UserProfileCard/Card';
 import HospitalSignup from '../Pages/HospitalSignup';
+import HospitalLogin from '../Pages/HospitalLogin';
+import AddReportForm from './AddReportForm';
 
 
 
@@ -22,10 +24,12 @@ const Navigation = () => {
       <Routes>
         <Route path="/user/signup" element={<RegisterForm />} />
         <Route path="/hospital/signup" element={<HospitalSignup/>} />
+        <Route path="/hospital/login" element={<HospitalLogin/>} />
         <Route path="/" element={<Home  />} />
         <Route path="/user/login" element={ <  LogIn/>} />
         <Route path="/pass/:id" element={ <Password/>} />
         <Route path="/hospital" element={ <UserProfile/>} />
+        <Route path="/filluserdetail/:id" element={ <AddReportForm/>} />
        
 
 

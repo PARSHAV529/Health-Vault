@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import aadhar from '../../dummy_API/aadharCard_dummy';
 // import AddReportForm from '../components/AddReportForm';
 import AddReportForm from '../AddReportForm';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const people = [
   {
@@ -42,47 +44,77 @@ const people = [
 const UserProfile = () => {
   const [aadharNumber, setAadharNumber] = useState('');
   const [userDetails, setUserDetails] = useState(null);
-
+  const[userid,setuserid]=useState('');
   const [form,setForm] =useState(false);
   const [bg,setbg]=useState(true);
-
+  const navigate=useNavigate()
   
 
 function handleReportBtn(){
-   setForm(true);
-   setbg(false);
-
-
+  //  setForm(true);
+  //  setbg(false);]
+  navigate(`/filluserdetail/ ${userid}`)
 }
 
-  const handleAadharSearch = () => {
-    const user = aadhar.find((user) => user.aadharNumber === aadharNumber);
+  const handleAadharSearch = async(e) => {
+  //  / = aadhar.find((res.data.user) => res.data.user.aadharNumber === aadharNumber);
+ e.preventDefault();
 
-    const data={
-      name:user.userName,
-      phoneNumber:user.userConatctNumber,
-      address:user.userAddress,
-      date:user.userDOB,
-      Adharcardnumber:user.aadharNumber,
-      gender:user.userGender,
-      medicalRecord:people
+    try{
+      
+       const res=await axios.post('http://localhost:4000/api/v1/user/searchbyadhar',
+       {
+        Adharcardnumber:aadharNumber
+       })
+
+      console.log(res.data);
+      setuserid(res.data.user._id);
+     // console.log(res.data.res.data.user)
+        const data={
+      name:res.data.user.name,
+      phoneNumber:res.data.user.phoneNumber,
+      address:res.data.user.address,
+      date:res.data.user.date,
+      Adharcardnumber:res.data.user.Adharcardnumber,
+      gender:res.data.user.gender,
+     
   }
-
-    if (user) {
+  
+    
       setUserDetails(data);
-      console.log(data)
-    } else {
+}
+    catch(e){
+      alert("email not found please register in app")
       setUserDetails(null);
-    }
+       console.log(e)
+   }
+
+  //   const data={
+  //     name:res.data.user.userName,
+  //     phoneNumber:res.data.user.userConatctNumber,
+  //     address:res.data.user.userAddress,
+  //     date:res.data.user.userDOB,
+  //     Adharcardnumber:res.data.user.aadharNumber,
+  //     gender:res.data.user.userGender,
+  //     medicalRecord:people
+  // }
+
+  //   if (res.data.user) {
+  //     setUserDetails(data);
+  //     console.log(data)
+  //   } else {
+  //     setUserDetails(null);
+  //   }
   };
 
   return (
     <>
     <div className="bg-white p-6 rounded-md shadow-md border-gray-300 ">
       <h2 className="text-2xl font-semibold mb-4">User Profile</h2>
-
+      <form  onSubmit={handleAadharSearch}>
       {/* Input for Aadhar card number */}
       <div className="mb-4">
+      
         <label htmlFor="aadharNumber" className="block text-sm font-medium text-gray-700">
           Input Aadhar Card Number:
         </label>
@@ -90,6 +122,7 @@ function handleReportBtn(){
           type="text"
           id="aadharNumber"
           name="aadharNumber"
+          required
           value={aadharNumber}
           onChange={(e) => setAadharNumber(e.target.value)}
           className="mt-1 p-2 border border-gray-300 rounded-md w-full text-center"
@@ -98,12 +131,12 @@ function handleReportBtn(){
 
       {/* Button to search */}
       <button
-        onClick={handleAadharSearch}
+       type='submit'
         className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
       >
         Search
       </button>
-
+      </form>
       {/* User details */}
       {userDetails && (
         <div className="mt-4 border border-3 border-gray-300 rounded-md w-full text-center">
@@ -138,12 +171,18 @@ function handleReportBtn(){
       )}
     </div>
 
+
+
+    
+
+
+      {userDetails && (
     <div>
 
-    {form &&<AddReportForm />}
+   
 
 
-{bg &&
+
     <section className="mx-auto w-full max-w-7xl px-4 py-4">
       <div className="flex flex-col space-y-4 md:flex-row md:items-center md:justify-between md:space-y-0">
         <div>
@@ -246,9 +285,10 @@ Date                      </th>
           </div>
         </div>
       </div>
-    </section>}
+    </section>
 
     </div>
+    )}  
     </>
   );
 };

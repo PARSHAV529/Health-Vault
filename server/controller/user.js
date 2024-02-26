@@ -38,6 +38,19 @@ exports.loginUser = async(req,res) =>{
         return res.status(500).json({message:error.message})
     }
 }
+exports.searchByAdhar = async(req,res) =>{
+    try {
+        const {Adharcardnumber} = req.body;
+        const user = await userModel.findOne({Adharcardnumber});
+        if(!user)
+            return res.status(404).json({message:"Invalid Email"});
+      
+        
+        return res.status(200).json({user});
+    } catch (error) {
+        return res.status(500).json({message:error.message})
+    }
+}
 exports.getUserDetails = async(req,res) =>{
     try {
       if(!req.user)
